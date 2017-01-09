@@ -1,5 +1,5 @@
-1ecc7cd998a05e6c7496488f4a4dbfa1 *DESCRIPTION
-2712136ce4e174a43bc52f0e26695b59 *NAMESPACE
+f8d6f0fbe0e971bd64ab87fa35a116a8 *DESCRIPTION
+6b465997fce3cfdcd245aedf9de808a9 *NAMESPACE
 33f2b0e0f950675f8541c54c01be3be1 *R/I_Trace.R
 42e973a3c1b72fcc000d79d259cb11b2 *R/I_clusterExport.R
 88ec3f2edbc8c92ca9ee9a5fd59dce92 *R/I_clusterSetUp.R
@@ -13,15 +13,15 @@ ecacff8948da740a53fdbfd68f34179b *R/I_laplApprox.R
 140ba029e9a33279777485269e62fe39 *R/I_qrInverse.R
 0e6ca2e2f1cb9f9311375a05e6b6384b *R/I_sumExpTrick.R
 28c9e7fcd59596230285116c576b24f4 *R/demvn.R
-60ba329a4a0f938b122d78550cb506d2 *R/dsaddle.R
+367321e0ecc0d05c6dae946ec6b4761f *R/dsaddle.R
 e264dc9afb23a81c1f7d8cae5ab73acc *R/ecgf.R
 3ffc94ba846bd779781a1d3d7971996a *R/findMode.R
 a40be4cc02e77cc1533cc60c4caa8ef9 *R/mstOptim.R
 27ebfdec5ba90ea25e708b173d0b0c57 *R/on_load.R
 624e50e4b1249165409b011dddfceba2 *R/robCov.R
 8aa601a8cfb8cff65c5d1c49e777dc11 *R/rsaddle.R
-9c6d54dbc462714a859b1a60ba109427 *R/selectDecay.R
-a6ffe4d6386b6813d56419b27b80f7ed *build/vignette.rds
+7f23078c7dbf7009bcff93d94e9c4d87 *R/selectDecay.R
+fbe17cb3b6aa3c8cc3ef5ec6cd06e18a *build/vignette.rds
 d545080ae4cae39defe84671363743c8 *inst/CITATION
 b163f1a8ea8cfdd42fcf6cc161cd678d *inst/doc/esaddle.R
 2d428f6d09c56e3bf385f67991cc0163 *inst/doc/esaddle.Rmd
@@ -35,7 +35,7 @@ ed354a718a56b2c00218456f6cfad449 *man/ecgf.Rd
 e4d900872fe3a19276084a65298608a1 *man/robCov.Rd
 76b7fd51cc7c3f379a8be8ac9f61b019 *man/rsaddle.Rd
 10f2d0733dcfde0b58e33ab636703f09 *man/selectDecay.Rd
-518a8fb9db64176b842d27fa69beb4e4 *src/Makevars
+dca02cf97155985059eb90b82c3bcd1b *src/Makevars
 b1e07a3cdcf09048524397c48c1ba30d *src/Makevars.win
 145b67abb7914ca024bfb4da4b0c09ea *src/ecgfCpp.cpp
 5c420633500afeea87be424c05f0a5b3 *src/esaddle.h
