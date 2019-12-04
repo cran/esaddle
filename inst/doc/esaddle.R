@@ -64,7 +64,7 @@ alpha <- 1
 dw <- exp( dwarp(x, alpha = alpha) )
 
 # Evaluating EES density
-dwa <- dsaddle(as.matrix(x), X, decay = 0.1, log = FALSE)$llk
+dwa <- dsaddle(as.matrix(x), X, decay = 0.05, log = FALSE)$llk
 
 ## ----warpPlot, message=F-------------------------------------------------
 # Plotting true density
@@ -80,7 +80,7 @@ contour(x1, x2, matrix(dwa, m, m), levels = quantile(as.vector(dwa), seq(0.8, 0.
 
 # Finding mode using EES 
 init <- rnorm(2, 0, sd = c(1, 2)) # random initialization
-res <- findMode(X = X, init = init, decay = decay)$mode
+res <- findMode(X = X, init = init, decay = 0.05)$mode
 points(res[1], res[2], pch = 3, lwd = 2)
 
 ## ----warpSelect, message=F-----------------------------------------------

@@ -5,7 +5,7 @@
 \title{Evaluating the Extended Empirical Saddlepoint (EES) density}
 \usage{
 dsaddle(y, X, decay, deriv = FALSE, log = FALSE, normalize = FALSE,
-  control = list(), multicore = !is.null(cluster),
+  fastInit = FALSE, control = list(), multicore = !is.null(cluster),
   ncores = detectCores() - 1, cluster = NULL)
 }
 \arguments{
@@ -25,6 +25,9 @@ Setting it to \code{Inf} leads to a Gaussian fit.}
 \item{normalize}{If TRUE the normalizing constant of the EES density will be computed. FALSE by 
 default.}
 
+\item{fastInit}{If TRUE a smart initialization is used to start the solution of the saddlepoint equation 
+corresponding to each row of y. It can lead to faster computation if n >> d and d < 5. FALSE by default.}
+
 \item{control}{A list of control parameters with entries:
 \itemize{
 \item{ \code{method} }{the method used to calculate the normalizing constant. 
@@ -32,6 +35,11 @@ default.}
 \item{ \code{nNorm} }{if control$method == "IS", this is the number of importance samples used.}
 \item{ \code{tol} }{the tolerance used to assess the convergence of the solution to the saddlepoint equation.
                     The default is 1e-6.}
+\item{ \code{maxit} }{maximal number of iterations used to solve the saddlepoint equation.
+                      The default is 100;}
+\item{ \code{ml} }{Relevant only if \code{control$method=="IS"}. n random variables are generated from 
+                   a Gaussian importance density with covariance matrix \code{ml*cov(X)}. 
+                   By default the inflation factor is \code{ml=2}.}
 }}
 
 \item{multicore}{if TRUE the empirical saddlepoint density at each row of y will be evaluated in parallel.}
@@ -81,11 +89,10 @@ suppressWarnings( rug(x) )
 legend("topright", c("EES un-norm", "EES normalized", "Truth", "Gaussian"), 
         col = c(1, 4, 3, 2), lty = 1)
 }
-\author{
-Matteo Fasiolo <matteo.fasiolo@gmail.com> and Simon N. Wood.
-}
 \references{
 Fasiolo, M., Wood, S. N., Hartig, F. and Bravington, M. V. (2016). 
             An Extended Empirical Saddlepoint Approximation for Intractable Likelihoods. ArXiv http://arxiv.org/abs/1601.01849.
 }
-
+\author{
+Matteo Fasiolo <matteo.fasiolo@gmail.com> and Simon N. Wood.
+}

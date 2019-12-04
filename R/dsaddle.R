@@ -13,6 +13,8 @@
 #' @param log If TRUE the log of the saddlepoint density is returned.
 #' @param normalize If TRUE the normalizing constant of the EES density will be computed. FALSE by 
 #'                  default.
+#' @param fastInit If TRUE a smart initialization is used to start the solution of the saddlepoint equation 
+#'                 corresponding to each row of y. It can lead to faster computation if n >> d and d < 5. FALSE by default. 
 #' @param control A list of control parameters with entries:
 #'         \itemize{
 #'         \item{ \code{method} }{the method used to calculate the normalizing constant. 
@@ -20,6 +22,11 @@
 #'         \item{ \code{nNorm} }{if control$method == "IS", this is the number of importance samples used.}
 #'         \item{ \code{tol} }{the tolerance used to assess the convergence of the solution to the saddlepoint equation.
 #'                             The default is 1e-6.}
+#'         \item{ \code{maxit} }{maximal number of iterations used to solve the saddlepoint equation.
+#'                               The default is 100;}
+#'         \item{ \code{ml} }{Relevant only if \code{control$method=="IS"}. n random variables are generated from 
+#'                            a Gaussian importance density with covariance matrix \code{ml*cov(X)}. 
+#'                            By default the inflation factor is \code{ml=2}.}
 #'         }
 #' @param multicore  if TRUE the empirical saddlepoint density at each row of y will be evaluated in parallel.
 #' @param ncores   number of cores to be used.
@@ -64,12 +71,12 @@
 #' @export
 #'
 dsaddle <- function(y, X,  decay, deriv = FALSE, log = FALSE, 
-                     normalize = FALSE, control = list(), 
+                     normalize = FALSE, fastInit = FALSE, control = list(), 
                      multicore = !is.null(cluster), ncores = detectCores() - 1, cluster = NULL) {
   ## X[i,j] is ith rep of jth variable; y is vector of variables.
   ## evaluate saddle point approximation based on empirical CGF
   if( !is.matrix(X) ) X <- matrix(X, length(X), 1)
-
+  
   d <- ncol(X)
   
   if( !is.matrix(y) ){ 
@@ -80,7 +87,6 @@ dsaddle <- function(y, X,  decay, deriv = FALSE, log = FALSE,
     }
   }
   
-  fastInit <- FALSE
   if( multicore && fastInit ) stop("You can't use multicore and fastInit together")
   
   ny <- nrow( y )
@@ -91,7 +97,9 @@ dsaddle <- function(y, X,  decay, deriv = FALSE, log = FALSE,
   # Setting up control parameter
   ctrl <- list( "method" = "LAP", 
                 "nNorm" = 100 * ncol(X), 
-                "tol" = 1e-6, 
+                "tol" = 1e-6,
+                "maxit" = 100,
+                "ml" = 2,
                 "mst" = NULL)
   
   # Checking if the control list contains unknown names
@@ -138,7 +146,7 @@ dsaddle <- function(y, X,  decay, deriv = FALSE, log = FALSE,
     # Objective function
     objFun <- function(.y, .lambda)
     {
-      return( .dsaddle(y = .y, X = X, tol = ctrl$tol, decay = decayI, 
+      return( .dsaddle(y = .y, X = X, tol = ctrl$tol, maxit = ctrl$maxit, decay = decayI, 
                         deriv = deriv, lambda = .lambda) )
     }
     
@@ -162,6 +170,7 @@ dsaddle <- function(y, X,  decay, deriv = FALSE, log = FALSE,
                    # Args for .dsaddle()
                    X = X,
                    tol = ctrl$tol,
+                   maxit = ctrl$maxit,
                    decay = decayI,
                    deriv = deriv)}, warning = function(w) {
                      # There is a bug in plyr concerning a useless warning about "..."
@@ -189,12 +198,12 @@ dsaddle <- function(y, X,  decay, deriv = FALSE, log = FALSE,
     # Log-normalizing constant by importance sampling
     if(ctrl$method == "IS") 
     {
-      aux <- rmvn(ctrl$nNorm, iCov$mY, 2*iCov$COV)
+      aux <- rmvn(ctrl$nNorm, iCov$mY, ctrl$ml*iCov$COV)
       
       logNorm <- log( .meanExpTrick( 
         dsaddle(y = aux, X = iX, decay = decay, deriv = FALSE, 
-                 log = TRUE, normalize = FALSE, control = ctrl, 
-                 multicore = multicore, ncores = ncores, cluster = cluster)$llk - dmvn(aux, iCov$mY, 2*iCov$COV, log = TRUE) )
+                 log = TRUE, normalize = FALSE, fastInit = fastInit, control = ctrl, 
+                 multicore = multicore, ncores = ncores, cluster = cluster)$llk - dmvn(aux, iCov$mY, ctrl$ml*iCov$COV, log = TRUE) )
       )
       
     }
@@ -202,7 +211,8 @@ dsaddle <- function(y, X,  decay, deriv = FALSE, log = FALSE,
     # Log-normalizing constant by Laplace approximation
     if(ctrl$method == "LAP")
     {
-      tmp <- findMode(X = iX, init = iCov$mY, decay = decay, sadControl = list("tol" = ctrl$tol), hess = T)
+      tmp <- findMode(X = iX, init = iCov$mY, decay = decay, 
+                      sadControl = list("tol" = ctrl$tol, "maxit" = ctrl$maxit), hess = T)
       logNorm <- .laplApprox(tmp$logDens, tmp$hess, log = TRUE)
     }
     
