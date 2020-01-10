@@ -1,4 +1,4 @@
-eaad8c1bea8e6230497cc79695fb7ea7 *DESCRIPTION
+ecefd7c0b9aa04dd19abf065217e8c90 *DESCRIPTION
 dc644e4ba03576bb6754152061cfbcf6 *NAMESPACE
 33f2b0e0f950675f8541c54c01be3be1 *R/I_Trace.R
 42e973a3c1b72fcc000d79d259cb11b2 *R/I_clusterExport.R
@@ -20,7 +20,7 @@ ecacff8948da740a53fdbfd68f34179b *R/I_laplApprox.R
 624e50e4b1249165409b011dddfceba2 *R/robCov.R
 21c112ff0a89e7c0bb7dc5f3ade01db9 *R/rsaddle.R
 997182d9638209212c30c13b0c586b4e *R/selectDecay.R
-8926caa6443530c9906148d8cfbf7a0e *build/vignette.rds
+9b6c0f220cfc9f02fd56ffa6cb43c4dd *build/vignette.rds
 3e37fae901c8610a4161fe939a2803a5 *inst/CITATION
 bb12fe6ae3fbace303ff9550f7f8fcb5 *inst/doc/esaddle.R
 72242843bbf6422a965363ef8fcbe9a2 *inst/doc/esaddle.Rmd
@@ -33,8 +33,8 @@ cb3505ccce86c93bcf76e45734d5c69b *inst/tests/test-ecgCpp.R
 4837483a4b2a348245048ad93061e868 *man/findMode.Rd
 e10139b0ced146c59900bcb2a45f4ea7 *man/robCov.Rd
 286a7372c6026b8832255e3c7ca6d3cf *man/rsaddle.Rd
-84b0a4b98aee54c02c457d0ea8252078 *man/selectDecay.Rd
-518a8fb9db64176b842d27fa69beb4e4 *src/Makevars
+d5a7b63c0b0efcb31f07b12a6aa68ff5 *man/selectDecay.Rd
+afb3ae54d42e59256bf227817cf87986 *src/Makevars
 b1e07a3cdcf09048524397c48c1ba30d *src/Makevars.win
 145b67abb7914ca024bfb4da4b0c09ea *src/ecgfCpp.cpp
 5c420633500afeea87be424c05f0a5b3 *src/esaddle.h
