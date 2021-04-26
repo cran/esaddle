@@ -1,8 +1,8 @@
-## ----setup, include=FALSE------------------------------------------------
+## ----setup, include=FALSE-----------------------------------------------------
 library(knitr)
 opts_chunk$set(out.extra='style="display:block; margin: auto"', fig.align="center", tidy=FALSE)
 
-## ----gamma, message=F----------------------------------------------------
+## ----gamma, message=F---------------------------------------------------------
 library(esaddle)
 set.seed(4141)
 x <- rgamma(1000, 2, 1)
@@ -26,14 +26,14 @@ legend("topright", c("EES un-norm", "EES normalized", "Truth", "Gaussian"), col 
 res <- findMode(x, init = mean(x), decay = decay)$mode
 abline(v = res, lty = 2, lwd = 1.5)
 
-## ----selGamma, message=F-------------------------------------------------
+## ----selGamma, message=F------------------------------------------------------
 tmp <- selectDecay(decay = c(5e-4, 1e-3, 5e-3, 0.01, 0.1, 0.5, 5, Inf), # grid of decay values
                    K = 4,
                    simulator = function() x,
                    multicore = T,
                    ncores = 2)
 
-## ----warp, message=F-----------------------------------------------------
+## ----warp, message=F----------------------------------------------------------
 dwarp <- function(x, alpha) {
   lik <- dnorm(x[ , 1], log = TRUE)
   tmp <- x[ , 1]^2
@@ -48,7 +48,7 @@ rwarp <- function(n = 1, alpha) {
   z
 }
 
-## ----warpGrid, message=F-------------------------------------------------
+## ----warpGrid, message=F------------------------------------------------------
 alpha <- 1
 X <- rwarp(2000, alpha = alpha)
 
@@ -66,7 +66,7 @@ dw <- exp( dwarp(x, alpha = alpha) )
 # Evaluating EES density
 dwa <- dsaddle(as.matrix(x), X, decay = 0.05, log = FALSE)$llk
 
-## ----warpPlot, message=F-------------------------------------------------
+## ----warpPlot, message=F------------------------------------------------------
 # Plotting true density
 par(mfrow = c(1, 2))
 plot(X, pch=".", col=1, ylim = c(-2, 3), xlim = c(-2, 2),
@@ -83,7 +83,7 @@ init <- rnorm(2, 0, sd = c(1, 2)) # random initialization
 res <- findMode(X = X, init = init, decay = 0.05)$mode
 points(res[1], res[2], pch = 3, lwd = 2)
 
-## ----warpSelect, message=F-----------------------------------------------
+## ----warpSelect, message=F----------------------------------------------------
 tmp <- selectDecay(decay = c(0.005, 0.01, 0.1, 0.25, 0.5, 1, 5, Inf), 
                    K = 4,
                    simulator = function() X,
